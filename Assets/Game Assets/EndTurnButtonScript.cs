@@ -5,18 +5,11 @@ using UnityEngine.UI;
 
 public class EndTurnButtonScript : MonoBehaviour {
 
-    public Button but;
-
-    void Start()
+    public void EndTurn()
     {
-        but.onClick.AddListener(EndTurn);
-    }
+        PlayerManager[] players = GameObject.FindObjectsOfType<PlayerManager>();
 
-    void EndTurn()
-    {
-        PlayerManagerScript[] players = GameObject.FindObjectsOfType<PlayerManagerScript>();
-
-        foreach (PlayerManagerScript pm in players)
+        foreach (PlayerManager pm in players)
         {
             if (pm.isLocalPlayer)
             {

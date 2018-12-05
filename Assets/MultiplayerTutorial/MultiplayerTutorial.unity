@@ -122,7 +122,6 @@ GameObject:
   m_Component:
   - component: {fileID: 578252540}
   - component: {fileID: 578252539}
-  - component: {fileID: 578252538}
   m_Layer: 0
   m_Name: Enemy Spawner
   m_TagString: Untagged
@@ -130,20 +129,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &578252538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 578252537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40c50a3af5de31f43b08e55d27738a63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 1577388676026756, guid: c71dadde037b5a64fab3ca4cbba3db8f,
-    type: 2}
-  numberOfEnemies: 4
 --- !u!114 &578252539
 MonoBehaviour:
   m_ObjectHideFlags: 0
