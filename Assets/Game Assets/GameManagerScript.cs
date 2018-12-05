@@ -148,6 +148,11 @@ public class GameManagerScript : NetworkBehaviour
                 foreach (PlayerManager p in players)
                 {
                     votes = new Dictionary<MachineScript, int>();
+                    foreach(MachineScript m in machines)
+                    {
+                        votes.Add(m, 0);
+                    }
+                    
                     voting = true;
                     p.RpcStartVoteTurn();
                 }
@@ -196,22 +201,20 @@ public class GameManagerScript : NetworkBehaviour
         if (!isServer)
             return;
 
+        Debug.Log("flag01");
+
         SpaceManager input = GetSpaceWithCoord(r, c);
 
         if (input)
         {
+            Debug.Log("flag02");
+
             MachineScript mach = input.GetComponent<MachineScript>();
 
-            if (mach)
+            if (mach && votes.ContainsKey(mach))
             {
-                if (votes.ContainsKey(mach))
-                {
-                    votes[mach]++;
-                }
-                else
-                {
-                    votes.Add(mach, 1);
-                }
+                Debug.Log("flag03");
+                votes[mach]++;
             }
         }
         
@@ -219,6 +222,7 @@ public class GameManagerScript : NetworkBehaviour
 
         if (num_votes >= players.Count)
         {
+            Debug.Log("flag06");
             int highest_num = 0;
             List<MachineScript> results = new List<MachineScript>();
 
@@ -242,7 +246,7 @@ public class GameManagerScript : NetworkBehaviour
 
             machines.Remove(result);
             NetworkServer.Destroy(result.gameObject);
-
+            Debug.Log("flag07");
             CmdNextTurn();
         }
     }

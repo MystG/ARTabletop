@@ -36,7 +36,7 @@ public class MachineScript : NetworkBehaviour
         SpaceManager s = GetSpaceWithCoord(row, col);
         if (s) transform.SetParent(s.gameObject.transform);
 
-        transform.localPosition = Vector3.zero;
+        transform.localPosition = new Vector3(0, 0.1f, 0);
     }
 
     [Command]

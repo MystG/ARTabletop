@@ -27,18 +27,25 @@ public class PlayerManager : NetworkBehaviour
     {
         gm = GameObject.FindObjectOfType<GameManagerScript>();
         //machines = GameObject.FindObjectsOfType<MachineScript>();
+        
         MoveUI = GameObject.Find("MoveUI");
-        MoveUI.SetActive(false);
 
         inventory = this.gameObject.GetComponent<Inventory>();
 
         spaces = new List<SpaceManager>(GameObject.FindObjectsOfType<SpaceManager>());
 
         move_buttons = GameObject.FindObjectsOfType<MoveButtonScript>();
+        /*
         foreach(MoveButtonScript but in move_buttons)
         {
             but.gameObject.SetActive(false);
         }
+        */
+    }
+
+    public override void OnStartLocalPlayer()
+    {
+        GetComponent<MeshRenderer>().material.color = Color.blue;
     }
 
     void Update()
@@ -49,36 +56,35 @@ public class PlayerManager : NetworkBehaviour
             transform.SetParent(spaces[0].gameObject.transform);
         }
         */
-        
+        Debug.Log("player flag-1");
+
         SpaceManager current_space = GetComponentInParent<SpaceManager>();
 
-        if (current_space && row == current_space.row && col == current_space.col)
+        if (!(current_space && row == current_space.row && col == current_space.col))
         {
-            return;
+            //find the space corresponding to the given coordinates
+            SpaceManager s = GetSpaceWithCoord(row, col);
+            if (s) transform.SetParent(s.gameObject.transform);
+
+            transform.localPosition = new Vector3(0, 0.5f, 0);
         }
-
-        //find the space corresponding to the given coordinates
-        SpaceManager s = GetSpaceWithCoord(row, col);
-        if(s) transform.SetParent(s.gameObject.transform);
-
-        transform.localPosition = Vector3.zero;
-
-        if (!isLocalPlayer)
-            return;
-
+        
         //if it's the voting phase and a machine was clicked, cast the vote
-        if (can_vote && Input.GetMouseButtonDown(0))
+        if (isLocalPlayer && can_vote && Input.GetMouseButtonDown(0))
         {
+            Debug.Log("player flag01");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             bool collided = Physics.Raycast(ray, out hit);
-
+            Debug.Log("player flag01");
             if (collided && hit.collider.gameObject.GetComponent<MachineScript>() != null)
             {
+                Debug.Log("player flag01");
                 can_vote = false;
 
                 MachineScript v = hit.collider.gameObject.GetComponent<MachineScript>();
                 gm.CmdCollectVote(v.row, v.col);
+                Debug.Log("player flag01");
             }
         }
     }
@@ -153,6 +159,7 @@ public class PlayerManager : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            Debug.Log("can_vote true");
             can_vote = true;
         }
     }
