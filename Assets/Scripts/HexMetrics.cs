@@ -4,18 +4,18 @@
 public struct HexCoordinates
 {
 	public int x;
-	public int y;
+	//public int y;
 	public int z;
 	public HexCoordinates(int x, int z)
 	{
 		this.x = x;
 		this.z = z;
-		y = -x - z;
+		//y = -x - z;
 	}
 
 	public static HexCoordinates FromOffsetCoordinates(int x, int z)
 	{
-		return new HexCoordinates(x, z + x / 2);
+		return new HexCoordinates(x, z);
 	}
 }
 

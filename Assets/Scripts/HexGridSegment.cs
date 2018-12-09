@@ -1,28 +1,63 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using Vuforia;
 
 public class HexGridSegment : MonoBehaviour
 {
+	public int id;
+	public static int numCols = 7;
 	public int width = 3;
 	public int height = 3;
 	public HexCell cellPrefab;
 
+	private bool linked = false;
 	private HexCell[] cells;
 	private int cellIndex = 0;
+	public int r, c;
 
 	private void Awake()
 	{
 		cells = new HexCell[width * height];
 	}
 
-	private void CreateCell(int x, int z, int i)
+	private void Update()
 	{
-		Vector3 position;
-		position.x = x * (HexMetrics.outerRadius * 1.5f);
-		position.y = 0f;
-		position.z = (z - 0.5f * x + x / 2) * (HexMetrics.innerRadius * 2f);
-		HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
+		id = r * numCols + c;
+		if (!linked)
+			LinkToTarget();
+	}
+
+	public void SetRelativePosition(int x, int z)
+	{
+		c = x;
+		r = z;
+	}
+
+	public void AddCell(HexCell cell)
+	{
+		// Set the segment's position to be the same as its lower-left cell.
+		if (cellIndex == 0)
+			transform.position = cell.transform.position;
+		cells[cellIndex] = cell;
+		cellIndex++;
 		cell.transform.SetParent(transform, true);
-		cell.transform.localPosition = position;
-		cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
+	}
+
+	public void LinkToTarget()
+	{
+		IEnumerable<TrackableBehaviour> targets = TrackerManager.Instance.GetStateManager().GetTrackableBehaviours();
+		foreach (TrackableBehaviour target in targets)
+		{
+			if (target.Trackable.ID == 56 - id)
+			{
+				target.transform.position = transform.position - Vector3.down;
+				target.gameObject.name = gameObject.name + " Target";
+				target.gameObject.AddComponent<DefaultTrackableEventHandler>();
+				target.gameObject.AddComponent<TurnOffBehaviour>();
+				transform.SetParent(target.transform, true);
+				linked = true;
+				break;
+			}
+		}
 	}
 }

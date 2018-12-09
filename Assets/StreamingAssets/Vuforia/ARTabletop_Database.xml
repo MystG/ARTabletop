@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="fiftyfive" size="0.055000 0.055000" />
+    <ImageTarget name="fiftyfour" size="0.055000 0.055000" />
+    <ImageTarget name="fiftythree" size="0.055000 0.055000" />
+    <ImageTarget name="fiftytwo" size="0.055000 0.055000" />
+    <ImageTarget name="fiftyone" size="0.055000 0.055000" />
+    <ImageTarget name="fifty" size="0.055000 0.055000" />
+    <ImageTarget name="fortynine" size="0.055000 0.055000" />
+    <ImageTarget name="fortyeight" size="0.055000 0.055000" />
+    <ImageTarget name="fortyseven" size="0.055000 0.055000" />
+    <ImageTarget name="fortysix" size="0.055000 0.055000" />
+    <ImageTarget name="fortyfive" size="0.055000 0.055000" />
+    <ImageTarget name="fortyfour" size="0.055000 0.055000" />
+    <ImageTarget name="fortythree" size="0.055000 0.055000" />
+    <ImageTarget name="fortytwo" size="0.055000 0.055000" />
+    <ImageTarget name="fortyone" size="0.055000 0.055000" />
+    <ImageTarget name="forty" size="0.055000 0.055000" />
+    <ImageTarget name="thirtynine" size="0.055000 0.055000" />
+    <ImageTarget name="thirtyeight" size="0.055000 0.055000" />
+    <ImageTarget name="thirtyseven" size="0.055000 0.055000" />
+    <ImageTarget name="thirtysix" size="0.055000 0.055000" />
+    <ImageTarget name="thirtyfive" size="0.055000 0.055000" />
+    <ImageTarget name="thirtyfour" size="0.055000 0.055000" />
+    <ImageTarget name="thirtythree" size="0.055000 0.055000" />
+    <ImageTarget name="thirtytwo" size="0.055000 0.055000" />
+    <ImageTarget name="thirtyone" size="0.055000 0.055000" />
+    <ImageTarget name="thirty" size="0.055000 0.055000" />
+    <ImageTarget name="twentynine" size="0.055000 0.055000" />
+    <ImageTarget name="twentyeight" size="0.055000 0.055000" />
+    <ImageTarget name="twentyseven" size="0.055000 0.055000" />
+    <ImageTarget name="twentysix" size="0.055000 0.055000" />
+    <ImageTarget name="twentyfive" size="0.055000 0.055000" />
+    <ImageTarget name="twentyfour" size="0.055000 0.055000" />
+    <ImageTarget name="twentythree" size="0.055000 0.055000" />
+    <ImageTarget name="twentytwo" size="0.055000 0.055000" />
+    <ImageTarget name="twentyone" size="0.055000 0.055000" />
+    <ImageTarget name="twenty" size="0.055000 0.054655" />
+    <ImageTarget name="nineteen" size="0.055000 0.055000" />
+    <ImageTarget name="eighteen" size="0.055000 0.055921" />
+    <ImageTarget name="seventeen" size="0.055000 0.055000" />
+    <ImageTarget name="sixteen" size="0.055000 0.054541" />
+    <ImageTarget name="fifthteen" size="0.055000 0.054542" />
+    <ImageTarget name="fourteen" size="0.055000 0.054431" />
+    <ImageTarget name="thirteen" size="0.055000 0.055115" />
+    <ImageTarget name="twelve" size="0.055000 0.055000" />
+    <ImageTarget name="eleven" size="0.055000 0.054427" />
+    <ImageTarget name="ten" size="0.055000 0.054770" />
+    <ImageTarget name="nine" size="0.055000 0.055116" />
+    <ImageTarget name="eight" size="0.055000 0.055000" />
+    <ImageTarget name="seven" size="0.055000 0.055232" />
+    <ImageTarget name="six" size="0.055000 0.055229" />
+    <ImageTarget name="five" size="0.055000 0.055115" />
+    <ImageTarget name="four" size="0.055000 0.055928" />
+    <ImageTarget name="three" size="0.055000 0.054543" />
+    <ImageTarget name="two" size="0.055000 0.055579" />
+    <ImageTarget name="one" size="0.055000 0.055000" />
+    <ImageTarget name="zero" size="0.055000 0.055116" />
     <ImageTarget name="Astronaut_poster" size="0.070000 0.120909" />
   </Tracking>
 </QCARConfig>
