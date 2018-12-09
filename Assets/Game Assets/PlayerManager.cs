@@ -154,7 +154,15 @@ public class PlayerManager : NetworkBehaviour
 
             //grant the proper recources to the player
             MachineScript mach = destination.GetComponentInChildren<MachineScript>();
-            if (mach && mach.has_recources && (this == mach.owner || mach.available_to_all))
+
+            bool aquired = false;
+            if(mach && mach.owner == null)
+            {
+                mach.RpcSetOwner();
+                aquired = true;
+            }
+
+            if (mach && mach.has_recources && (this == mach.owner || mach.available_to_all || aquired))
             {
                 inventory.CmdAddValue(mach.recource_amount, mach.recource_type);
                 mach.has_recources = false;
@@ -221,6 +229,12 @@ public class PlayerManager : NetworkBehaviour
         MoveUI.SetActive(false);
 
         gm.CmdNextTurn();
+    }
+
+    [ClientRpc]
+    public void RpcSetColor(float r, float g, float b)
+    {
+        GetComponent<MeshRenderer>().material.color = new Color(r, g, b);
     }
 
     /*

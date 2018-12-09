@@ -31,6 +31,18 @@ public class GameManagerScript : NetworkBehaviour
 
     private StartGameButtonScript startui;
 
+    private Vector3[] player_colors = new Vector3[]
+    {
+        new Vector3(1,0,0),
+        new Vector3(0,1,0),
+        new Vector3(0,0,1),
+        new Vector3(1,1,0),
+        new Vector3(1,0,1),
+        new Vector3(0,1,1),
+        new Vector3(1,1,1),
+        new Vector3(0,0,0)
+    };
+
     //private Text PlayerText;
     //private Text RoundText;
     //private Text DayText;
@@ -127,10 +139,16 @@ public class GameManagerScript : NetworkBehaviour
         //spawn the correct number of machines
         for (int i = 0; i < players.Count; i++)
         {
+            //spawn machines
             GameObject mach = Instantiate(machine_prefab);
             NetworkServer.Spawn(mach);
             machines.Add(mach.GetComponent<MachineScript>());
+
+            //set each player's color to something unique
+            players[i].RpcSetColor(player_colors[i].x, player_colors[i].y, player_colors[i].z);
         }
+
+        GameObject.FindObjectOfType<LocalPlayerIndicator>().RpcActivate();
 
         //put the players and machines on random spaces
         int[] indexes = IndexPermutation(spaces.Count);

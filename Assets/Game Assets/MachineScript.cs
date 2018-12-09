@@ -31,6 +31,17 @@ public class MachineScript : NetworkBehaviour
         GetComponent<Collider>().enabled = false;
     }
 
+    [ClientRpc]
+    public void RpcSetOwner()
+    {
+        GameObject space = transform.parent.gameObject;
+        PlayerManager sibling = space.GetComponentInChildren<PlayerManager>();
+        if (sibling)
+        {
+            owner = sibling;
+        }
+    }
+
     /*
     [ClientRpc]
     public void SetCollider(bool val)
