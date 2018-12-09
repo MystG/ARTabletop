@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+//using UnityEngine.Networking;
 
-public class SpaceManager : NetworkBehaviour
+public class SpaceManager : MonoBehaviour
 {
-    [SyncVar] public int row;
-    [SyncVar] public int col;
+    public int row;
+    public int col;
 
     public int max_move_dist;
 
+    /*
     // Use this for initialization
     void Start()
     {
@@ -21,6 +22,7 @@ public class SpaceManager : NetworkBehaviour
     {
 
     }
+    */
 
     public int DistanceTo(SpaceManager dest)
     {

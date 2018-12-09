@@ -13,8 +13,7 @@ public class EndTurnButtonScript : MonoBehaviour {
         {
             if (pm.isLocalPlayer)
             {
-                GameObject.Find("MoveUI").SetActive(false);
-                GameObject.Find("Game Manager").GetComponent<GameManagerScript>().CmdNextTurn();
+                pm.EndTurn();
                 return;
             }
         }

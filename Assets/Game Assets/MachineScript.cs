@@ -11,34 +11,63 @@ public class MachineScript : NetworkBehaviour
 
     [SyncVar] public bool has_recources = false;
 
-    [SyncVar] public int row;
-    [SyncVar] public int col;
+    public int recource_amount = 3;
+    public int recource_type = (int)Inventory.Indexes.Coins;
 
-    private List<SpaceManager> spaces;
+    //private Collider col;
 
+        /*
     // Use this for initialization
     void Start()
     {
-        spaces = new List<SpaceManager>(GameObject.FindObjectsOfType<SpaceManager>());
+        //spaces = new List<SpaceManager>(GameObject.FindObjectsOfType<SpaceManager>());
+        //col = GetComponent<Collider>();
+        GetComponent<Collider>().enabled = false;
     }
+    */
 
-    // Update is called once per frame
-    void Update()
+    public override void OnStartClient()
     {
-        SpaceManager current_space = GetComponentInParent<SpaceManager>();
-
-        if (current_space && row == current_space.row && col == current_space.col)
-        {
-            return;
-        }
-
-        //find the space corresponding to the given coordinates
-        SpaceManager s = GetSpaceWithCoord(row, col);
-        if (s) transform.SetParent(s.gameObject.transform);
-
-        transform.localPosition = new Vector3(0, 0.1f, 0);
+        GetComponent<Collider>().enabled = false;
     }
 
+    /*
+    [ClientRpc]
+    public void SetCollider(bool val)
+    {
+        col.enabled = val;
+    }
+    */
+
+    //[SyncVar] public int row;
+    //[SyncVar] public int col;
+
+    //private List<SpaceManager> spaces;
+
+    /*
+
+
+/*
+// Update is called once per frame
+void Update()
+{
+    SpaceManager current_space = GetComponentInParent<SpaceManager>();
+
+    if (current_space && row == current_space.row && col == current_space.col)
+    {
+        return;
+    }
+
+    //find the space corresponding to the given coordinates
+    SpaceManager s = GetSpaceWithCoord(row, col);
+    if (s) transform.SetParent(s.gameObject.transform);
+
+    transform.localPosition = new Vector3(0, 0.1f, 0);
+}
+*/
+
+
+    /*
     [Command]
     public void CmdSetLocation(int r, int c)
     {
@@ -55,6 +84,7 @@ public class MachineScript : NetworkBehaviour
             }
         }
     }
+    */
 
     /*
     [Command]
@@ -82,7 +112,7 @@ public class MachineScript : NetworkBehaviour
         }
     }
     */
-
+    /*
     private SpaceManager GetSpaceWithCoord(int r, int c)
     {
         foreach (SpaceManager s in spaces)
@@ -95,4 +125,5 @@ public class MachineScript : NetworkBehaviour
 
         return null;
     }
+    */
 }
