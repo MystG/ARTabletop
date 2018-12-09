@@ -23,14 +23,14 @@ public class HexGridSegment : MonoBehaviour
 	private void Update()
 	{
 		id = r * numCols + c;
-		if (!linked)
-			LinkToTarget();
+		//if (!linked)
+			//LinkToTarget();
 	}
 
 	public void SetRelativePosition(int x, int z)
 	{
-		c = x;
-		r = z;
+		r = x;
+		c = z;
 	}
 
 	public void AddCell(HexCell cell)
