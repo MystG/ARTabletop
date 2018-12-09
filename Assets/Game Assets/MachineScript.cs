@@ -42,6 +42,12 @@ public class MachineScript : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    public void RpcSetColor(float r, float g, float b)
+    {
+        GetComponent<MeshRenderer>().material.color = new Color(r, g, b);
+    }
+
     /*
     [ClientRpc]
     public void SetCollider(bool val)

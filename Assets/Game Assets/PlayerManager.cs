@@ -155,13 +155,18 @@ public class PlayerManager : NetworkBehaviour
             //grant the proper recources to the player
             MachineScript mach = destination.GetComponentInChildren<MachineScript>();
 
+            //if the machine doesn't have an owner, set it to the player
             bool aquired = false;
             if(mach && mach.owner == null)
             {
                 mach.RpcSetOwner();
+                Color color = GetComponent<MeshRenderer>().material.color;
+                mach.RpcSetColor(color.r, color.b, color.g);
                 aquired = true;
             }
 
+            //if the machine has recources and the player can get them,
+            //give them to the player
             if (mach && mach.has_recources && (this == mach.owner || mach.available_to_all || aquired))
             {
                 inventory.CmdAddValue(mach.recource_amount, mach.recource_type);
