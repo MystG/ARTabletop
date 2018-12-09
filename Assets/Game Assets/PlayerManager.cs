@@ -161,7 +161,7 @@ public class PlayerManager : NetworkBehaviour
             {
                 mach.RpcSetOwner();
                 Color color = GetComponent<MeshRenderer>().material.color;
-                mach.RpcSetColor(color.r, color.b, color.g);
+                mach.RpcSetColor(color.r, color.g, color.b);
                 aquired = true;
             }
 
