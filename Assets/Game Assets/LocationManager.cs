@@ -16,20 +16,6 @@ public class LocationManager : NetworkBehaviour
     private float startTime;
     public float travelSpeed;
 
-    /*
-    // Use this for initialization
-    void Start () {
-
-        space_coords = new Dictionary<Vector2, SpaceManager>();
-        SpaceManager[] spaces = FindObjectsOfType<SpaceManager>();
-
-        foreach(SpaceManager s in spaces)
-        {
-            space_coords.Add(new Vector2(s.row, s.col), s);
-        }
-    }
-    */
-
     public override void OnStartClient()
     {
         space_coords = new Dictionary<Vector2, SpaceManager>();
@@ -39,29 +25,15 @@ public class LocationManager : NetworkBehaviour
         {
             space_coords.Add(new Vector2(s.row, s.col), s);
         }
+
+        startMarker = transform.localPosition;
+        startTime = Time.time;
     }
 
     void Update()
     {
-        /*
-        //find the space corresponding to the given coordinates
-        foreach (SpaceManager s in spaces)
-        {
-            if (r == s.row && c == s.col)
-            {
-                row = r;
-                col = c;
-
-                //child the player on each client
-                return;
-            }
-        }
-        */
-
-        //RpcUpdateTransform(row, col);
-
         // Distance moved = time * speed.
-        float distCovered = (Time.time - startTime) * travelSpeed / Time.deltaTime;
+        float distCovered = (Time.time - startTime) * travelSpeed;
 
         // Fraction of journey completed = current distance divided by total distance.
         float fracJourney = distCovered / Vector3.Distance(space_offset, startMarker);
@@ -76,11 +48,11 @@ public class LocationManager : NetworkBehaviour
         row = r;
         col = c;
 
-        RpcUpdateTransform(r, c);
+        RpcStartLocChange(r, c);
     }
 
     [ClientRpc]
-    private void RpcUpdateTransform(int r, int c)
+    private void RpcStartLocChange(int r, int c)
     {
         row = r;
         col = c;
@@ -94,8 +66,6 @@ public class LocationManager : NetworkBehaviour
 
         startMarker = transform.localPosition;
         startTime = Time.time;
-
-        //transform.localPosition = space_offset;
     }
 
     public SpaceManager Get_Space(int r, int c)

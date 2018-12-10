@@ -32,20 +32,8 @@ public class MoveButtonScript : MonoBehaviour {
         {
             if (pm.isLocalPlayer && pm.can_move)
             {
-                //GameObject.Find("MoveUI").SetActive(false);
-                pm.can_move = false;
-
-                MoveButtonScript[] buttons = GameObject.FindObjectsOfType<MoveButtonScript>();
-                foreach (MoveButtonScript b in buttons)
-                {
-                    b.gameObject.SetActive(false);
-                }
-
-                GameObject.Find("Turn Text").GetComponent<Text>().text = "End your turn";
-                
-                pm.CmdMove(destination.row, destination.col);
-
-                break;
+                pm.ActivateMove(destination.row, destination.col);
+                return;
             }
         }
     }

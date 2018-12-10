@@ -93,4 +93,4 @@ MonoBehaviour:
   E_Regen: 10
   machine_prefab: {fileID: 1637075234063302, guid: d788f9c66ce46eb498970cfa473fc37f,
     type: 2}
-  machines_per_player: 3
+  machines_per_player: 2

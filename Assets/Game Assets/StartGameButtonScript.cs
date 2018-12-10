@@ -9,7 +9,8 @@ public class StartGameButtonScript : NetworkBehaviour
     {
         GameObject.FindObjectOfType<GameManagerScript>().CmdStartGame();
 
-        //RpcRemoveStartUI();
+        //UI: deactivate Start Game UI upon pressing
+        GameObject.Find("Start Game UI").SetActive(false);
     }
 
     [ClientRpc]

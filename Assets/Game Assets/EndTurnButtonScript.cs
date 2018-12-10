@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class EndTurnButtonScript : MonoBehaviour {
+public class EndTurnButtonScript : NetworkBehaviour {
 
     public void EndTurn()
     {
@@ -17,5 +18,11 @@ public class EndTurnButtonScript : MonoBehaviour {
                 return;
             }
         }
+    }
+
+    [ClientRpc]
+    public void RpcSetEndTurnUI(bool val)
+    {
+        GameObject.Find("MoveUI").SetActive(val);
     }
 }

@@ -25,12 +25,11 @@ public class GameManagerScript : NetworkBehaviour
 
     private Dictionary<Vector2, int> votes;
     [SyncVar] private int num_votes = 0;
-    //[SyncVar] public bool is_voting_turn = false;
     public int machines_per_player;
 
     private RoundUIScript roundui;
 
-    private StartGameButtonScript startui;
+    //private StartGameButtonScript startui;
 
     private Vector3[] player_colors = new Vector3[]
     {
@@ -44,71 +43,21 @@ public class GameManagerScript : NetworkBehaviour
         new Vector3(0,0,0)
     };
 
-    //private Text PlayerText;
-    //private Text RoundText;
-    //private Text DayText;
-    //private Text VoteText;
-    //private RoundUIScript roundUI;
-
-    /*
-    // Use this for initialization
-    void Start()
-    {
-        spaces = new List<SpaceManager>(GameObject.FindObjectsOfType<SpaceManager>());
-
-        roundui = GameObject.FindObjectOfType<RoundUIScript>();
-
-        startui = GameObject.FindObjectOfType<StartGameButtonScript>();
-
-        //PlayerText = GameObject.Find("Player Text").GetComponent<Text>();
-        //RoundText = GameObject.Find("Round Text").GetComponent<Text>();
-        //DayText = GameObject.Find("Day Text").GetComponent<Text>();
-        //VoteText = GameObject.Find("Vote Text").GetComponent<Text>();
-    }
-    */
-
     public override void OnStartClient()
     {
         spaces = new List<SpaceManager>(GameObject.FindObjectsOfType<SpaceManager>());
 
         roundui = GameObject.FindObjectOfType<RoundUIScript>();
 
-        startui = GameObject.FindObjectOfType<StartGameButtonScript>();
+        //startui = GameObject.FindObjectOfType<StartGameButtonScript>();
     }
 
+    /*
     public void Update()
     {
-        /*
-        PlayerText.text = "Player: " + turn_player + "/" + players.Count;
-        RoundText.text = "Round: " + round + "/" + roundsPerDay;
-        DayText.text = "Day: " + day + "/" + numDays;
-
-        if (voting)
-        {
-            VoteText.text = "Votes are Being Cast";
-        }
-        else
-        {
-            VoteText.text = "";
-        }
-        */
-
-        //update ui
-        /*
-        PlayerText.text = "Player: " + turn_player + "/" + players.Count;
-        RoundText.text = "Round: " + round + "/" + roundsPerDay;
-        DayText.text = "Day: " + day + "/" + numDays;
-
-        if (voting)
-        {
-            VoteText.text = "Votes are Being Cast";
-        }
-        else
-        {
-            VoteText.text = "";
-        }
-        */
+        
     }
+    */    
 
     [Command]
     public void CmdStartGame()
@@ -120,24 +69,17 @@ public class GameManagerScript : NetworkBehaviour
         round = 1;
         turn_player = 0;
 
-        //remove the start ui from all clients
-        startui.RpcSetStartUI(false);
+        //UI: remove the start ui from all clients
+        //startui.RpcSetStartUI(false);
 
         //get list of all active players
         players = new List<PlayerManager>(GameObject.FindObjectsOfType<PlayerManager>());
-        /*
-        for(int i=0; i<players.Count; i++)
-        {
-            players[i].id = i;
-        }
-        */
 
         //get list of active inventories
         inventories = new List<Inventory>(GameObject.FindObjectsOfType<Inventory>());
 
         machines = new List<MachineScript>();
-
-        //spawn the correct number of machines
+        
         for (int i = 0; i < players.Count; i++)
         {
             //spawn machines
@@ -150,6 +92,9 @@ public class GameManagerScript : NetworkBehaviour
             
             //set each player's color to something unique
             players[i].RpcSetColor(player_colors[i].x, player_colors[i].y, player_colors[i].z);
+
+            //indicate the game started to each player
+            players[i].RpcStartGame();
         }
 
         GameObject.FindObjectOfType<LocalPlayerIndicator>().RpcActivate();
@@ -167,22 +112,6 @@ public class GameManagerScript : NetworkBehaviour
             m.gameObject.GetComponent<LocationManager>().CmdSetLocation(spaces[indexes[j]].row, spaces[indexes[j]].col);
             j++;
         }
-        /*
-        for (int i = 0; i < players.Count; i++)
-        {
-            //players[i].CmdSetLocation(spaces[indexes[i]].row, spaces[indexes[i]].col);
-            //players[i].row = spaces[indexes[i]].row;
-            //players[i].col = spaces[indexes[i]].col;
-            players[i].gameObject.GetComponent<LocationManager>().CmdSetLocation(spaces[indexes[i]].row, spaces[indexes[i]].col);
-        }
-        for (int i = 0; i < machines.Count; i++)
-        {
-            //machines[i].CmdSetLocation(spaces[indexes[i+ players.Count]].row, spaces[indexes[i + players.Count]].col);
-            //machines[i].row = spaces[indexes[i + players.Count]].row;
-            //machines[i].col = spaces[indexes[i + players.Count]].col;
-            players[i].gameObject.GetComponent<LocationManager>().CmdSetLocation(spaces[indexes[i]].row, spaces[indexes[i]].col);
-        }
-        */
 
         //start the first turn
         turn_player = -1;
@@ -195,6 +124,7 @@ public class GameManagerScript : NetworkBehaviour
         if (!isServer)
             return;
 
+        //remove authority of this object from last player
         if(turn_player >= 0 && turn_player < players.Count)
         {
             GetComponent<NetworkIdentity>().RemoveClientAuthority(players[turn_player].connectionToClient);
@@ -211,27 +141,33 @@ public class GameManagerScript : NetworkBehaviour
             round++;
         }
 
-        if(round > roundsPerDay)
+        //assign authority of this object to the turn player
+        NetworkConnection connect = players[turn_player].connectionToClient;
+        GetComponent<NetworkIdentity>().AssignClientAuthority(connect);
+
+        //after the last round that day
+        //set it to the voting round (0)
+        //and regenerate players HP and Energy
+        if (round > roundsPerDay)
         {
             round = 0;
             day++;
 
             foreach (Inventory inv in inventories)
             {
-                inv.CmdAddValue(HP_Regen, (int)Inventory.Indexes.HP);
+                inv.CmdSetValue(HP_Regen, (int)Inventory.Indexes.HP);
                 inv.CmdAddValue(E_Regen, (int)Inventory.Indexes.Energy);
             }
         }
 
+        //after the last day, the game is over
         if (day > numDays)
         {
             //finish game
             roundui.RpcEndGame();
             return;
         }
-
-        NetworkConnection connect = players[turn_player].connectionToClient;
-        GetComponent<NetworkIdentity>().AssignClientAuthority(connect);
+        
         if (round==0)
         {
             //if it's the first vote bing asked for
@@ -267,75 +203,11 @@ public class GameManagerScript : NetworkBehaviour
             }
 
             //have the next player start their turn
-            //a dn give client authority to that player
             players[turn_player].TargetStartMoveTurn(connect);
         }
         
+        //UI: update the ui the display the turn_player, the round, and the day
         roundui.RpcUpdateTurnUI(turn_player, players.Count, round, roundsPerDay, day, numDays);
-
-        /*
-        //if it's tha last round of the day...
-        if (round > roundsPerDay)
-        {
-            //start the rounds over and move to the next day
-            round = 0;
-            day++;
-
-            foreach(Inventory inv in inventories)
-            {
-                inv.CmdAddValue(HP_Regen, (int)Inventory.Indexes.HP);
-                inv.CmdAddValue(E_Regen, (int)Inventory.Indexes.Energy);
-            }
-
-            if (day > numDays)
-            {
-                //finish game
-                print("end game");
-            }
-            else
-            {
-                //turn_player = -1;
-
-                //create a new list to keep track of votes
-                votes = new Dictionary<MachineScript, int>();
-                foreach (MachineScript m in machines)
-                {
-                    votes.Add(m, 0);
-                }
-
-                is_voting_turn = true;
-
-                //ask each player to cast a vote
-                NetworkConnection connect = players[turn_player].connectionToClient;
-                GetComponent<NetworkIdentity>().AssignClientAuthority(connect);
-                players[turn_player].TargetStartVoteTurn(connect);
-            }
-        }
-        else
-        {
-            //depending on the round,
-            //update the status of each machine's recources
-            foreach (MachineScript m in machines)
-            {
-                switch (round)
-                {
-                    case 1:
-                        m.has_recources = true;
-                        m.available_to_all = false;
-                        break;
-                    case 4:
-                        m.available_to_all = true;
-                        break;
-                }
-            }
-
-            //have the next player start their turn
-            //a dn give client authority to that player
-            NetworkConnection connect = players[turn_player].connectionToClient;
-            GetComponent<NetworkIdentity>().AssignClientAuthority(connect);
-            players[turn_player].TargetStartMoveTurn(connect);
-        }
-        */
     }
 
     [Command]
@@ -343,8 +215,6 @@ public class GameManagerScript : NetworkBehaviour
     {
         if (!isServer)
             return;
-
-        //SpaceManager input = GetSpaceWithCoord(r, c);
 
         Vector2 loc = new Vector2(r, c);
 
@@ -381,8 +251,6 @@ public class GameManagerScript : NetworkBehaviour
             MachineScript mach = GetSpaceWithCoord((int)result.x, (int)result.y).gameObject.GetComponentInChildren<MachineScript>();
             machines.Remove(mach);
             NetworkServer.Destroy(mach.gameObject);
-            
-            //is_voting_turn = false;
         }
 
         //start the next turn
@@ -405,7 +273,63 @@ public class GameManagerScript : NetworkBehaviour
 
         return result;
     }
+
     
+    [Command]
+    public void CmdAttack(int atk_r, int atk_c, int def_r, int def_c, int damage, float coin_percent, int max_knockback)
+    {
+        SpaceManager atk_space = GetSpaceWithCoord(atk_r, atk_c);
+        SpaceManager def_space = GetSpaceWithCoord(def_r, def_c);
+
+        PlayerManager attacker = atk_space.GetComponentInChildren<PlayerManager>();
+        PlayerManager defender = def_space.GetComponentInChildren<PlayerManager>();
+
+        Inventory atk_inv = atk_space.GetComponentInChildren<Inventory>();
+        Inventory def_inv = def_space.GetComponentInChildren<Inventory>();
+
+        if (!attacker || !defender || !atk_inv || !def_inv)
+        {
+            return;
+        }
+
+        //deal damage to them
+        def_inv.CmdAddValue(-damage, (int)Inventory.Indexes.HP);
+
+        //take a percentage of their coins
+        int coin_take = (int) (coin_percent * def_inv.GetValue((int)Inventory.Indexes.Coins));
+        def_inv.CmdAddValue(-coin_take, (int)Inventory.Indexes.Coins);
+        atk_inv.CmdAddValue(coin_take, (int)Inventory.Indexes.Coins);
+
+        //knock player back to a space max_knockback_dist away and is further from the player
+        //if there is no space, decrese max by one and try again
+        List<SpaceManager> knockback_spaces = new List<SpaceManager>();
+        int max = max_knockback;
+        while (knockback_spaces.Count == 0 && max > 0)
+        {
+            foreach (SpaceManager s in spaces)
+            {
+                //if the space is as far away as possible,
+                //and the new space is farther from the attacker than from the defender
+                //and the new space will place the defender farther from the attacker than they were
+                if (s.DistanceTo(def_space) == max
+                    && s.DistanceTo(atk_space) > s.DistanceTo(def_space)
+                    &&  s.DistanceTo(atk_space) > def_space.DistanceTo(atk_space))
+                {
+                    knockback_spaces.Add(s);
+                }
+            }
+
+            if(knockback_spaces.Count >= 1)
+            {
+                SpaceManager k = knockback_spaces[Random.Range(0, knockback_spaces.Count)];
+                defender.gameObject.GetComponent<LocationManager>().CmdSetLocation(k.row, k.col);
+                break;
+            }
+
+            max -= 1;
+        }
+    }
+
     private SpaceManager GetSpaceWithCoord(int r, int c)
     {
         foreach (SpaceManager s in spaces)
