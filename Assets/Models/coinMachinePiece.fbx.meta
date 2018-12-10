@@ -15,12 +15,15 @@ ModelImporter:
     2300000: coin
     2300002: shop
     2300004: shopOwner
+    2300006: //RootNode
     3300000: coin
     3300002: shop
     3300004: shopOwner
+    3300006: //RootNode
     4300000: shop
     4300002: shopOwner
     4300004: coin
+    4300006: coinMachine
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -71,7 +74,7 @@ ModelImporter:
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
-    useFileScale: 1
+    useFileScale: 0
     previousCalculatedGlobalScale: 1
     hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
