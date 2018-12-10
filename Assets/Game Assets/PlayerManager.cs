@@ -261,24 +261,26 @@ public class PlayerManager : NetworkBehaviour
 
         List<SpaceManager> knockback_spaces = new List<SpaceManager>();
         int max = max_knockback_dist;
-        int min = min_knockback_dist;
         while (knockback_spaces.Count == 0 && max > 0)
         {
             foreach (SpaceManager s in spaces)
             {
-                if (s.DistanceTo(otherlco) >= min
-                    && s.DistanceTo(otherlco) <= max
+                if (s.DistanceTo(otherlco) == max
                     && s.DistanceTo(myloc) > otherlco.DistanceTo(myloc))
                 {
                     knockback_spaces.Add(s);
                 }
             }
 
-            max = min-1;
-            min = max;
+            if(knockback_spaces.Count >= 1)
+            {
+                SpaceManager k = knockback_spaces[Random.Range(0, knockback_spaces.Count)];
+                other.gameObject.GetComponent<LocationManager>().CmdSetLocation(k.row, k.col);
+                break;
+            }
+
+            max -= 1;
         }
-        SpaceManager k = knockback_spaces[Random.Range(0, knockback_spaces.Count)];
-        other.gameObject.GetComponent<LocationManager>().CmdSetLocation(k.row, k.col);
     }
 
     public void EndTurn()
