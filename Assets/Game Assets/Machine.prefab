@@ -161,3 +161,4 @@ MonoBehaviour:
   space_offset: {x: 0, y: 0.2, z: 0}
   row: 0
   col: 0
+  travelSpeed: 0

@@ -87,10 +87,10 @@ MonoBehaviour:
   day: 1
   round: 1
   turn_player: 0
-  roundsPerDay: 5
+  roundsPerDay: 4
   numDays: 2
-  HP_Regen: 0
-  E_Regen: 0
+  HP_Regen: 5
+  E_Regen: 10
   machine_prefab: {fileID: 1637075234063302, guid: d788f9c66ce46eb498970cfa473fc37f,
     type: 2}
-  is_voting_turn: 0
+  machines_per_player: 3

@@ -25,7 +25,8 @@ public class GameManagerScript : NetworkBehaviour
 
     private Dictionary<Vector2, int> votes;
     [SyncVar] private int num_votes = 0;
-    [SyncVar] public bool is_voting_turn = false;
+    //[SyncVar] public bool is_voting_turn = false;
+    public int machines_per_player;
 
     private RoundUIScript roundui;
 
@@ -140,10 +141,13 @@ public class GameManagerScript : NetworkBehaviour
         for (int i = 0; i < players.Count; i++)
         {
             //spawn machines
-            GameObject mach = Instantiate(machine_prefab);
-            NetworkServer.Spawn(mach);
-            machines.Add(mach.GetComponent<MachineScript>());
-
+            for (int x = 0; x < machines_per_player; x++)
+            {
+                GameObject mach = Instantiate(machine_prefab);
+                NetworkServer.Spawn(mach);
+                machines.Add(mach.GetComponent<MachineScript>());
+            }
+            
             //set each player's color to something unique
             players[i].RpcSetColor(player_colors[i].x, player_colors[i].y, player_colors[i].z);
         }
@@ -378,7 +382,7 @@ public class GameManagerScript : NetworkBehaviour
             machines.Remove(mach);
             NetworkServer.Destroy(mach.gameObject);
             
-            is_voting_turn = false;
+            //is_voting_turn = false;
         }
 
         //start the next turn

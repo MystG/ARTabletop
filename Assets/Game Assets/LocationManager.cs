@@ -12,6 +12,10 @@ public class LocationManager : NetworkBehaviour
     [SyncVar] public int row;
     [SyncVar] public int col;
 
+    private Vector3 startMarker;
+    private float startTime;
+    public float travelSpeed;
+
     /*
     // Use this for initialization
     void Start () {
@@ -55,6 +59,15 @@ public class LocationManager : NetworkBehaviour
         */
 
         //RpcUpdateTransform(row, col);
+
+        // Distance moved = time * speed.
+        float distCovered = (Time.time - startTime) * travelSpeed / Time.deltaTime;
+
+        // Fraction of journey completed = current distance divided by total distance.
+        float fracJourney = distCovered / Vector3.Distance(space_offset, startMarker);
+
+        // Set our position as a fraction of the distance between the markers.
+        transform.localPosition = Vector3.Lerp(startMarker, space_offset, fracJourney);
     }
 
     [Command]
@@ -79,7 +92,10 @@ public class LocationManager : NetworkBehaviour
             transform.SetParent(current_space.gameObject.transform);
         }
 
-        transform.localPosition = space_offset;
+        startMarker = transform.localPosition;
+        startTime = Time.time;
+
+        //transform.localPosition = space_offset;
     }
 
     public SpaceManager Get_Space(int r, int c)

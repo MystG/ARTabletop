@@ -10,6 +10,7 @@ public class PlayerManager : NetworkBehaviour
 
     private GameManagerScript gm;
     //private MachineScript[] machines;
+    private SpaceManager[] spaces;
     private MoveButtonScript[] move_buttons;
 
     private GameObject MoveUI;
@@ -19,6 +20,11 @@ public class PlayerManager : NetworkBehaviour
 
     public bool can_move = false;
     public bool can_vote = false;
+
+    public int atk_damage;
+    public float coin_take_percent;
+    public int min_knockback_dist;
+    public int max_knockback_dist;
 
     private Text TurnText;
 
@@ -54,6 +60,7 @@ public class PlayerManager : NetworkBehaviour
         inventory = this.gameObject.GetComponent<Inventory>();
         location_manager = this.gameObject.GetComponent<LocationManager>();
 
+        spaces = GameObject.FindObjectsOfType<SpaceManager>();
         move_buttons = GameObject.FindObjectsOfType<MoveButtonScript>();
 
         TurnText = GameObject.Find("Turn Text").GetComponent<Text>();
@@ -91,13 +98,13 @@ public class PlayerManager : NetworkBehaviour
         */
         
         //if it's the voting phase and a machine was clicked, cast the vote
-        if (isLocalPlayer && can_vote && Input.GetMouseButtonDown(0))
+        if (isLocalPlayer && Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             bool collided = Physics.Raycast(ray, out hit);
             
-            if (collided && hit.collider.gameObject.GetComponent<MachineScript>() != null)
+            if (can_vote && collided && hit.collider.gameObject.GetComponent<MachineScript>() != null)
             {
                 can_vote = false;
 
@@ -110,6 +117,16 @@ public class PlayerManager : NetworkBehaviour
                 //gm.GetComponent<NetworkIdentity>().AssignClientAuthority(this.GetComponent<NetworkIdentity>().connectionToClient);
                 gm.CmdCollectVote(mach_loc.row, mach_loc.col);
                 //gm.GetComponent<NetworkIdentity>().RemoveClientAuthority(this.GetComponent<NetworkIdentity>().connectionToClient);
+            }
+            else if(can_move && collided && hit.collider.gameObject.GetComponent<PlayerManager>() != null)
+            {
+                List<PlayerManager> players = new List<PlayerManager>(GameObject.FindObjectsOfType<PlayerManager>());
+                PlayerManager hit_player = hit.collider.gameObject.GetComponent<PlayerManager>();
+
+                if (hit_player != this && players.Contains(hit_player))
+                {
+                    AttackPlayer(hit_player);
+                }
             }
         }
     }
@@ -225,6 +242,43 @@ public class PlayerManager : NetworkBehaviour
         }
 
         TurnText.text = "Cast your vote";
+    }
+
+    public void AttackPlayer(PlayerManager other)
+    {
+        Inventory other_inv = other.gameObject.GetComponent<Inventory>();
+
+        //deal damage to them
+        other_inv.CmdAddValue(-atk_damage, (int)Inventory.Indexes.HP);
+
+        //take a percentage of their coins
+        int coin_take = (int) (coin_take_percent / other_inv.GetValue((int)Inventory.Indexes.HP));
+        other_inv.CmdAddValue(-coin_take, (int)Inventory.Indexes.Coins);
+        inventory.CmdAddValue(coin_take, (int)Inventory.Indexes.Coins);
+
+        SpaceManager myloc = gameObject.GetComponent<LocationManager>().CurrentSpace();
+        SpaceManager otherlco = other.gameObject.GetComponent<LocationManager>().CurrentSpace();
+
+        List<SpaceManager> knockback_spaces = new List<SpaceManager>();
+        int max = max_knockback_dist;
+        int min = min_knockback_dist;
+        while (knockback_spaces.Count == 0 && max > 0)
+        {
+            foreach (SpaceManager s in spaces)
+            {
+                if (s.DistanceTo(otherlco) >= min
+                    && s.DistanceTo(otherlco) <= max
+                    && s.DistanceTo(myloc) > otherlco.DistanceTo(myloc))
+                {
+                    knockback_spaces.Add(s);
+                }
+            }
+
+            max = min-1;
+            min = max;
+        }
+        SpaceManager k = knockback_spaces[Random.Range(0, knockback_spaces.Count)];
+        other.gameObject.GetComponent<LocationManager>().CmdSetLocation(k.row, k.col);
     }
 
     public void EndTurn()

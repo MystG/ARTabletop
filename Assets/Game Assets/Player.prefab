@@ -133,6 +133,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   can_move: 0
   can_vote: 0
+  atk_damage: 3
+  coin_take_percent: 2
+  min_knockback_dist: 4
+  max_knockback_dist: 3
 --- !u!114 &114566895770106412
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -158,6 +162,7 @@ MonoBehaviour:
   space_offset: {x: 0, y: 0.5, z: 0}
   row: 0
   col: 0
+  travelSpeed: 1.5
 --- !u!136 &136724514532480012
 CapsuleCollider:
   m_ObjectHideFlags: 1
