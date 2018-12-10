@@ -45,6 +45,8 @@ public class HexGrid : MonoBehaviour
 		cell.transform.SetParent(transform, true);
 		cell.transform.localPosition = position;
 		cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
+		cell.space.row = (height - z);
+		cell.space.col = x;
 		segments[x / segmentWidth, z / segmentHeight].AddCell(cell);
 	}
 }

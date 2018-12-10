@@ -3,7 +3,7 @@
 public class HexCell : MonoBehaviour
 {
 	public HexCoordinates coordinates;
-	public GameObject objectOnSpace;
+	public SpaceManager space;
 
 	private void Update()
 	{
