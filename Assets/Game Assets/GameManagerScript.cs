@@ -139,6 +139,22 @@ public class GameManagerScript : NetworkBehaviour
         {
             turn_player = 0;
             round++;
+
+            //depending on the round,
+            //update the status of each machine's recources
+            foreach (MachineScript m in machines)
+            {
+                switch (round)
+                {
+                    case 1:
+                        m.has_recources = true;
+                        m.available_to_all = false;
+                        break;
+                    case 4:
+                        m.available_to_all = true;
+                        break;
+                }
+            }
         }
 
         //assign authority of this object to the turn player
@@ -186,22 +202,6 @@ public class GameManagerScript : NetworkBehaviour
         }
         else
         {
-            //depending on the round,
-            //update the status of each machine's recources
-            foreach (MachineScript m in machines)
-            {
-                switch (round)
-                {
-                    case 1:
-                        m.has_recources = true;
-                        m.available_to_all = false;
-                        break;
-                    case 4:
-                        m.available_to_all = true;
-                        break;
-                }
-            }
-
             //have the next player start their turn
             players[turn_player].TargetStartMoveTurn(connect);
         }

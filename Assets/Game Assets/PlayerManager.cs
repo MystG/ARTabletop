@@ -74,7 +74,7 @@ public class PlayerManager : NetworkBehaviour
                 MachineScript[] machines = GameObject.FindObjectsOfType<MachineScript>();
                 foreach (MachineScript m in machines)
                 {
-                    m.gameObject.GetComponent<Collider>().enabled = true;
+                    m.gameObject.GetComponent<Collider>().enabled = false;
                 }
 
                 //UI: after a vote is cast, the ui states that other votes are being cast now
