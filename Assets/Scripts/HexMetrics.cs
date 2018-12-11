@@ -22,7 +22,7 @@ public struct HexCoordinates
 public static class HexMetrics
 {
 	public const float inchesToMeters = 1.0f / 39.370f;
-	public const float outerRadius = 1.0f * inchesToMeters;
+	public const float outerRadius = 1.0f * inchesToMeters * 0.6613925f;
 	public const float innerRadius = outerRadius * 0.866025404f;
 
 	public static Vector3[] corners =

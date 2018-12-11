@@ -23,7 +23,7 @@ public class HexGridSegment : MonoBehaviour
 	private void Update()
 	{
 		id = r * numCols + c;
-		if (!linked)
+        if (!linked)
 			LinkToTarget();
 	}
 
@@ -50,13 +50,15 @@ public class HexGridSegment : MonoBehaviour
 		{
 			if (target.Trackable.ID == 56 - id)
 			{
-				target.transform.position = transform.position - Vector3.down;
-				target.gameObject.name = gameObject.name + " Target";
+				target.transform.position = cells[4].transform.position;
+                //target.transform.localScale = 1.5f * Vector3.one;
+                //transform.localScale *= 2f;
+                target.gameObject.name = gameObject.name + " Target";
 				target.gameObject.AddComponent<DefaultTrackableEventHandler>();
 				target.gameObject.AddComponent<TurnOffBehaviour>();
 				transform.SetParent(target.transform, true);
 				linked = true;
-				break;
+                break;
 			}
 		}
 	}
