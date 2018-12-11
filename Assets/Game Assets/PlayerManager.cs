@@ -112,6 +112,11 @@ public class PlayerManager : NetworkBehaviour
     public void RpcStartGame()
     {
         players = new List<PlayerManager>(GameObject.FindObjectsOfType<PlayerManager>());
+
+        foreach(MoveButtonScript m in move_buttons)
+        {
+            m.gameObject.SetActive(false);
+        }
     }
 
     //moves this player on the server (which is then synced accross clients)
