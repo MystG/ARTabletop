@@ -148,7 +148,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1253098352366068}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -183,7 +183,7 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1253098352366068}
-  m_Mesh: {fileID: 4300000, guid: ac4a5a9e24f3efa44b8f02171e9eefda, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 55d09edfc2148db468cee0245d195258, type: 3}
 --- !u!33 &33696355690119912
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -204,7 +204,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: ac4a5a9e24f3efa44b8f02171e9eefda, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 55d09edfc2148db468cee0245d195258, type: 3}
 --- !u!114 &114273268300350982
 MonoBehaviour:
   m_ObjectHideFlags: 1

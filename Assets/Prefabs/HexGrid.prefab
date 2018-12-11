@@ -34,7 +34,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1951389167083564}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0362727, y: 0.0604545, z: -0.06287268}
+  m_LocalPosition: {x: -0.65950364, y: 1.0991727, z: -16.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -55,6 +55,7 @@ MonoBehaviour:
   height: 16
   segmentWidth: 3
   segmentHeight: 3
+  scaleFactor: 1
   cellPrefab: {fileID: 114893789652630124, guid: 618ef88fc3c5f1140bc7b9458f670aca,
     type: 2}
   imageTarget: {fileID: 0}
