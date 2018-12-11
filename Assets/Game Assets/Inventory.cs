@@ -8,6 +8,9 @@ public class Inventory : NetworkBehaviour
 {
     public enum Indexes { HP, Energy, Coins, Grain, Metal };
 
+    private Image HPbar;
+    private Image Ebar;
+
     //private List<int> values;
 
     [SyncVar] private int HP = 5;
@@ -26,11 +29,18 @@ public class Inventory : NetworkBehaviour
         EText = GameObject.Find("Energy Text").GetComponent<Text>();
         CoinText = GameObject.Find("Coin Text").GetComponent<Text>();
 
+        HPbar = GameObject.Find("HP").GetComponent<Image>();
+        Ebar = GameObject.Find("E").GetComponent<Image>();
+
         //UI: set recource counter displays to initial values
         //RpcUpdateInventoryUI(HP, Energy, Coins);
-        HPText.text = "HP: " + HP;
+
+        /*HPText.text = "HP: " + HP;
         EText.text = "Energy: " + Energy;
-        CoinText.text = "Coin: " + Coins;
+        CoinText.text = "Coin: " + Coins;*/
+        HPText.text = "" + HP;
+        EText.text = "" + Energy;
+        CoinText.text = "$" + Coins;
     }
 
     [Command]
@@ -134,14 +144,16 @@ public class Inventory : NetworkBehaviour
 
     //update the UI
     [ClientRpc]
+    
     public void RpcUpdateInventoryUI(int hp, int e, int c)
     {
         //UI: update ui to display the player's HP, Energy, and Coins
         if (!isLocalPlayer)
             return;
-
-        HPText.text = "HP: " + hp;
-        EText.text = "Energy: " + e;
-        CoinText.text = "Coin: " + c;
+        HPText.text = "" + hp;
+        HPbar.fillAmount = hp / 5f;
+        EText.text = "" + e;
+        Ebar.fillAmount = e / 20f;
+        CoinText.text = "$" + c;
     }
 }
