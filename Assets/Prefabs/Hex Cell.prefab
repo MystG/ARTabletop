@@ -148,7 +148,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1253098352366068}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -261,7 +261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   row: 0
   col: 0
-  max_move_dist: 0
+  max_move_dist: 2
 --- !u!114 &114893789652630124
 MonoBehaviour:
   m_ObjectHideFlags: 1
