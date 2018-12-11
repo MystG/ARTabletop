@@ -9,6 +9,7 @@ public class HexGrid : MonoBehaviour
 	public int segmentWidth = 3;
 	public int segmentHeight = 3;
 	public HexCell cellPrefab;
+    public GameObject imageTarget;
 
 	private HexCell[] cells;
 	private HexGridSegment[,] segments;
@@ -27,6 +28,8 @@ public class HexGrid : MonoBehaviour
 		for (int x = 0, i = 0; x < width; x++)
 			for (int z = 0; z < height; z++)
 				CreateCell(x, z, i++);
+        foreach (HexGridSegment seg in segments)
+            seg.transform.SetParent(imageTarget.transform);
 	}
 
 	//private void Start()
