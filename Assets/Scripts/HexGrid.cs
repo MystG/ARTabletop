@@ -8,6 +8,7 @@ public class HexGrid : MonoBehaviour
 	public int height = 24;
 	public int segmentWidth = 3;
 	public int segmentHeight = 3;
+	public float scaleFactor;
 	public HexCell cellPrefab;
     public GameObject imageTarget;
 
@@ -29,6 +30,7 @@ public class HexGrid : MonoBehaviour
 		for (int x = 0, i = 0; x < width; x++)
 			for (int z = 0; z < height; z++)
 				CreateCell(x, z, i++);
+		transform.localScale *= scaleFactor;
         //foreach (HexGridSegment seg in segments)
           //  seg.transform.SetParent(imageTarget.transform);
 	}
