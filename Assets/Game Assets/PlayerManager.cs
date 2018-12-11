@@ -56,10 +56,13 @@ public class PlayerManager : NetworkBehaviour
     }
 
     void Update()
-    {    
-        if (isLocalPlayer && Input.GetMouseButtonDown(0))
+    {
+        Vector3 pos;
+        bool input_down = InputPos(out pos);
+
+        if (input_down && isLocalPlayer)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(pos);
             RaycastHit hit;
             bool collided = Physics.Raycast(ray, out hit);
 
@@ -249,5 +252,27 @@ public class PlayerManager : NetworkBehaviour
     public void RpcSetColor(float r, float g, float b)
     {
         GetComponent<MeshRenderer>().material.color = new Color(r, g, b);
+    }
+
+    public bool InputPos(out Vector3 result)
+    {
+        if(Input.touchCount >0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if(touch.phase == TouchPhase.Began)
+            {
+                result = touch.position;
+                return true;
+            }
+        }
+        else if(Input.GetMouseButtonDown(0))
+        {
+            result = Input.mousePosition;
+            return true;
+        }
+
+        result = Vector3.zero;
+        return false;
     }
 }

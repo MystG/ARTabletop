@@ -150,7 +150,7 @@ public class GameManagerScript : NetworkBehaviour
                         m.has_recources = true;
                         m.available_to_all = false;
                         break;
-                    case 4:
+                    case 3:
                         m.available_to_all = true;
                         break;
                 }
