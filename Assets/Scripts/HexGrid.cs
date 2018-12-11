@@ -17,8 +17,9 @@ public class HexGrid : MonoBehaviour
 	private void Awake()
 	{
 		segments = new HexGridSegment[(width / segmentWidth), (height / segmentHeight)];
-		for (int i = 0; i < width / segmentWidth; i++)
-			for (int j = 0; j < height / segmentHeight; j++)
+		//for (int i = 0; i < width / segmentWidth; i++)
+			//for (int j = 0; j < height / segmentHeight; j++)
+			for (int i = 0, j = 0; i > 3; i--)
 			{
 				segments[i, j] = new GameObject("R" + ((height / segmentHeight - 1) - j) + "C" + i, 
 					typeof(HexGridSegment)).GetComponent<HexGridSegment>();
@@ -28,8 +29,8 @@ public class HexGrid : MonoBehaviour
 		for (int x = 0, i = 0; x < width; x++)
 			for (int z = 0; z < height; z++)
 				CreateCell(x, z, i++);
-        foreach (HexGridSegment seg in segments)
-            seg.transform.SetParent(imageTarget.transform);
+        //foreach (HexGridSegment seg in segments)
+          //  seg.transform.SetParent(imageTarget.transform);
 	}
 
 	//private void Start()
@@ -50,6 +51,6 @@ public class HexGrid : MonoBehaviour
 		cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 		cell.space.row = (height - z);
 		cell.space.col = x;
-		segments[x / segmentWidth, z / segmentHeight].AddCell(cell);
+		//segments[x / segmentWidth, z / segmentHeight].AddCell(cell);
 	}
 }
