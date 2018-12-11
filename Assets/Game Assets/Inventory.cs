@@ -20,32 +20,17 @@ public class Inventory : NetworkBehaviour
     private Text EText;
     private Text CoinText;
 
-    /*
-    void Start()
-    {
-        HPText = GameObject.Find("HP Text").GetComponent<Text>();
-        EText = GameObject.Find("Energy Text").GetComponent<Text>();
-        CoinText = GameObject.Find("Coin Text").GetComponent<Text>();
-    }
-    */
-
     public override void OnStartClient()
     {
         HPText = GameObject.Find("HP Text").GetComponent<Text>();
         EText = GameObject.Find("Energy Text").GetComponent<Text>();
         CoinText = GameObject.Find("Coin Text").GetComponent<Text>();
-    }
 
-    void Update()
-    {
-        /*
-        if (!isLocalPlayer)
-            return;
-
+        //UI: set recource counter displays to initial values
+        //RpcUpdateInventoryUI(HP, Energy, Coins);
         HPText.text = "HP: " + HP;
         EText.text = "Energy: " + Energy;
         CoinText.text = "Coin: " + Coins;
-        */
     }
 
     [Command]
@@ -149,8 +134,9 @@ public class Inventory : NetworkBehaviour
 
     //update the UI
     [ClientRpc]
-    private void RpcUpdateInventoryUI(int hp, int e, int c)
+    public void RpcUpdateInventoryUI(int hp, int e, int c)
     {
+        //UI: update ui to display the player's HP, Energy, and Coins
         if (!isLocalPlayer)
             return;
 

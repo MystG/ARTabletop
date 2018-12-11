@@ -12,19 +12,9 @@ public class LocationManager : NetworkBehaviour
     [SyncVar] public int row;
     [SyncVar] public int col;
 
-    /*
-    // Use this for initialization
-    void Start () {
-
-        space_coords = new Dictionary<Vector2, SpaceManager>();
-        SpaceManager[] spaces = FindObjectsOfType<SpaceManager>();
-
-        foreach(SpaceManager s in spaces)
-        {
-            space_coords.Add(new Vector2(s.row, s.col), s);
-        }
-    }
-    */
+    private Vector3 startMarker;
+    private float startTime;
+    public float travelSpeed;
 
     public override void OnStartClient()
     {
@@ -35,26 +25,21 @@ public class LocationManager : NetworkBehaviour
         {
             space_coords.Add(new Vector2(s.row, s.col), s);
         }
+
+        startMarker = transform.localPosition;
+        startTime = Time.time;
     }
 
     void Update()
     {
-        /*
-        //find the space corresponding to the given coordinates
-        foreach (SpaceManager s in spaces)
-        {
-            if (r == s.row && c == s.col)
-            {
-                row = r;
-                col = c;
+        // Distance moved = time * speed.
+        float distCovered = (Time.time - startTime) * travelSpeed;
 
-                //child the player on each client
-                return;
-            }
-        }
-        */
+        // Fraction of journey completed = current distance divided by total distance.
+        float fracJourney = distCovered / Vector3.Distance(space_offset, startMarker);
 
-        //RpcUpdateTransform(row, col);
+        // Set our position as a fraction of the distance between the markers.
+        transform.localPosition = Vector3.Lerp(startMarker, space_offset, fracJourney);
     }
 
     [Command]
@@ -63,11 +48,11 @@ public class LocationManager : NetworkBehaviour
         row = r;
         col = c;
 
-        RpcUpdateTransform(r, c);
+        RpcStartLocChange(r, c);
     }
 
     [ClientRpc]
-    private void RpcUpdateTransform(int r, int c)
+    private void RpcStartLocChange(int r, int c)
     {
         row = r;
         col = c;
@@ -79,7 +64,8 @@ public class LocationManager : NetworkBehaviour
             transform.SetParent(current_space.gameObject.transform);
         }
 
-        transform.localPosition = space_offset;
+        startMarker = transform.localPosition;
+        startTime = Time.time;
     }
 
     public SpaceManager Get_Space(int r, int c)
