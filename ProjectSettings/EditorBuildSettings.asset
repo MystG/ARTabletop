@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/VuforiaTutorial/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 0
@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/multiplayer_test_01.unity
     guid: 9ca8f6136041bf84a902c7e0a1fb9dbb
+  - enabled: 1
+    path: Assets/Title.unity
+    guid: 42d672ecb98a9492c93f4b015c06d436
+  - enabled: 1
+    path: Assets/multiplayer_with_ar.unity
+    guid: e504aa0d20c12434e8bfd7cf238e4cfc
   m_configObjects: {}
