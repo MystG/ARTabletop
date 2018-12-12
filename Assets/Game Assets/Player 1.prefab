@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 114566895770106412}
   - component: {fileID: 114910099057691548}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player but its smol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,7 +95,7 @@ Transform:
   m_GameObject: {fileID: 1268028022270666}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_LocalScale: {x: 0.023005318, y: 0.046010636, z: 0.023005318}
   m_Children:
   - {fileID: 224306919220796414}
   m_Father: {fileID: 0}
@@ -201,22 +201,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 239
-    i1: 33
-    i2: 160
-    i3: 108
-    i4: 243
-    i5: 112
-    i6: 24
-    i7: 132
-    i8: 73
-    i9: 81
-    i10: 117
-    i11: 227
-    i12: 101
-    i13: 252
-    i14: 232
-    i15: 87
+    i0: 74
+    i1: 229
+    i2: 171
+    i3: 48
+    i4: 132
+    i5: 227
+    i6: 67
+    i7: 212
+    i8: 122
+    i9: 185
+    i10: 46
+    i11: 161
+    i12: 153
+    i13: 147
+    i14: 151
+    i15: 83
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
 --- !u!114 &114307575693738124
