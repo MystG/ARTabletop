@@ -299,9 +299,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   can_move: 0
   can_vote: 0
-  atk_damage: 2
+  atk_damage: 3
   coin_take_percent: 0.333
-  max_knockback_dist: 7
+  max_knockback_dist: 6
   attack_range: 2
   crownPrefab: {fileID: 1691801548450992, guid: 1cb6fd0e853032a4ea704b38515e41d7,
     type: 2}
@@ -524,7 +524,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 62.44}
   m_SizeDelta: {x: 100, y: 71.36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224580164551120650
