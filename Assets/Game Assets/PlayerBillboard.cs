@@ -7,8 +7,10 @@ public class PlayerBillboard : MonoBehaviour {
 
     private Inventory inv;
     private Text text;
-    private Image hpb;
+    public Image hpb;
 
+    public GameObject Hpbar;
+    public GameObject ATK;
     public bool can_be_attacked = false;
 
     // Use this for initialization
@@ -16,7 +18,7 @@ public class PlayerBillboard : MonoBehaviour {
         inv = GetComponentInParent<Inventory>();
         text = GetComponent<Text>();
 
-        hpb = GameObject.Find("HP").GetComponent<Image>();
+        
      
     }
 	
@@ -27,6 +29,7 @@ public class PlayerBillboard : MonoBehaviour {
         if (inv.isLocalPlayer)
         {
             text.text = "";
+            Hpbar.SetActive(false);
         }
         else
         {
@@ -39,7 +42,7 @@ public class PlayerBillboard : MonoBehaviour {
 
             if (can_be_attacked)
             {
-                text.text += "\nATK";
+                ATK.SetActive(true);
             }
 
 

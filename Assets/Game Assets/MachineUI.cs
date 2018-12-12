@@ -7,6 +7,10 @@ public class MachineUI : MonoBehaviour {
 
     private MachineScript ms;
     private Text text;
+
+    public GameObject coinA;
+    public GameObject coinU;
+    public GameObject NumberText;
 	// Use this for initialization
 	void Start () {
         ms = GetComponentInParent<MachineScript>();
@@ -16,15 +20,25 @@ public class MachineUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         string info = "";
+        info += ":$" + ms.recource_amount;
 
-        if(ms.has_recources)
+        if (ms.has_recources)
         {
-            info += "Coins:" + ms.recource_amount;
+            coinU.SetActive(true);
+            coinA.SetActive(false);
+            NumberText.SetActive(true);
 
             if(ms.available_to_all)
             {
-                info += "!!!";
+                coinA.SetActive(true);
+                coinU.SetActive(false);
             }
+        }
+        else
+        {
+            NumberText.SetActive(false);
+            coinA.SetActive(true);
+            coinU.SetActive(false);
         }
 
         text.text = info;
