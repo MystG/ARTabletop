@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 114057842698182958}
   - component: {fileID: 114645656667839396}
   m_Layer: 0
-  m_Name: Machine but its smol
+  m_Name: Machine 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

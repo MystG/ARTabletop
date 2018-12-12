@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 114566895770106412}
   - component: {fileID: 114910099057691548}
   m_Layer: 0
-  m_Name: Player but its smol
+  m_Name: Player 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
