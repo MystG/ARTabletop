@@ -127,6 +127,8 @@ public class PlayerManager : NetworkBehaviour
         {
             m.gameObject.SetActive(false);
         }
+
+        MoveUI.SetActive(false);
     }
 
     //moves this player on the server (which is then synced accross clients)

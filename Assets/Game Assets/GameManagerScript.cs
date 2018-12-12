@@ -176,8 +176,8 @@ public class GameManagerScript : NetworkBehaviour
             }
         }
 
-        //after the last day, the game is over
-        if (day > numDays)
+        //after the last day or all the machines are gone, the game is over
+        if (day > numDays || machines.Count <= 0 )
         {
             //finish game
 
@@ -270,6 +270,8 @@ public class GameManagerScript : NetworkBehaviour
             MachineScript mach = GetSpaceWithCoord((int)result.x, (int)result.y).gameObject.GetComponentInChildren<MachineScript>();
             machines.Remove(mach);
             NetworkServer.Destroy(mach.gameObject);
+
+            num_votes = 0;
         }
 
         //start the next turn
