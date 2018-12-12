@@ -29,7 +29,7 @@ public class Inventory : NetworkBehaviour
         EText = GameObject.Find("Energy Text").GetComponent<Text>();
         CoinText = GameObject.Find("Coin Text").GetComponent<Text>();
 
-        HPbar = GameObject.Find("HP").GetComponent<Image>();
+        HPbar = GameObject.Find("HPbar").GetComponent<Image>();
         Ebar = GameObject.Find("E").GetComponent<Image>();
 
         //UI: set recource counter displays to initial values
