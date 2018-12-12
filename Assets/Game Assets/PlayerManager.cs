@@ -25,6 +25,9 @@ public class PlayerManager : NetworkBehaviour
 
     private Text TurnText;
 
+    private Transform crownloc;
+    public GameObject crownPrefab;
+
     public override void OnStartClient()
     {
         gm = GameObject.FindObjectOfType<GameManagerScript>();
@@ -41,6 +44,8 @@ public class PlayerManager : NetworkBehaviour
         MoveUI = GameObject.Find("MoveUI");
 
         GetComponent<Collider>().enabled = false;
+
+        crownloc = transform.Find("crownloc");
     }
 
     public override void OnStartLocalPlayer()
@@ -268,6 +273,15 @@ public class PlayerManager : NetworkBehaviour
     public void RpcSetColor(float r, float g, float b)
     {
         GetComponent<MeshRenderer>().material.color = new Color(r, g, b);
+    }
+
+    [ClientRpc]
+    public void RpcIdentifyWinnder(bool is_winner)
+    {
+        if(is_winner)
+        {
+            GameObject.Instantiate(crownPrefab, crownloc);
+        }
     }
 
     public bool InputPos(out Vector3 result)

@@ -180,6 +180,25 @@ public class GameManagerScript : NetworkBehaviour
         if (day > numDays)
         {
             //finish game
+
+            //sort players by decending order of most coins
+            List<Inventory> leaderboard = new List<Inventory>(inventories);
+            leaderboard.Sort(SortByCoins);
+            leaderboard.Reverse();
+
+            //get the mac coin value
+            int max = leaderboard[0].GetValue((int)Inventory.Indexes.Coins);
+            int y = 0;
+
+            //identify all players with max coin value as winner
+            while(y < leaderboard.Count && leaderboard[y].GetValue((int)Inventory.Indexes.Coins) >= max)
+            {
+                leaderboard[y].gameObject.GetComponent<PlayerManager>().RpcIdentifyWinnder(true);
+
+                y++;
+            }
+
+            //tell ui the game is over
             roundui.RpcEndGame();
             return;
         }
@@ -341,5 +360,10 @@ public class GameManagerScript : NetworkBehaviour
         }
 
         return null;
+    }
+
+    static int SortByCoins(Inventory a, Inventory b)
+    {
+        return a.GetValue((int)Inventory.Indexes.Coins).CompareTo(b.GetValue((int)Inventory.Indexes.Coins));
     }
 }
