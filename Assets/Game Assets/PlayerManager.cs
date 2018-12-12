@@ -31,7 +31,7 @@ public class PlayerManager : NetworkBehaviour
 
         inventory = this.gameObject.GetComponent<Inventory>();
         location_manager = this.gameObject.GetComponent<LocationManager>();
-        
+
         move_buttons = GameObject.FindObjectsOfType<MoveButtonScript>();
 
         //UI: get a reference to the text of the object that gives instructions
@@ -47,7 +47,7 @@ public class PlayerManager : NetworkBehaviour
     {
         //GetComponent<MeshRenderer>().material.color = Color.blue;
 
-        if(!isServer)
+        if (!isServer)
         {
             //UI: disbles (hides) the UI element whic starts the game for non-serer objects
             //this is becuase non-server players are unable to use it (possible bug)
@@ -82,10 +82,10 @@ public class PlayerManager : NetworkBehaviour
 
                 //UI: after a vote is cast, the ui states that other votes are being cast now
                 TurnText.text = "Waiting for votes to be cast";
-                
+
                 gm.CmdCollectVote(mach_loc.row, mach_loc.col);
             }
-            else if(can_move && collided && hit.collider.gameObject.GetComponent<PlayerManager>() != null)
+            else if (can_move && collided && hit.collider.gameObject.GetComponent<PlayerManager>() != null)
             {
                 //if you can attack and click an enemy, attack it
                 PlayerManager hit_player = hit.collider.gameObject.GetComponent<PlayerManager>();
@@ -100,6 +100,8 @@ public class PlayerManager : NetworkBehaviour
                     foreach (PlayerManager p in players)
                     {
                         p.GetComponent<Collider>().enabled = false;
+
+                        p.gameObject.GetComponentInChildren<PlayerBillboard>().can_be_attacked = false;
                     }
 
                     //UI: after attacking, there is nothing left to do, so tell player to end their turn
@@ -116,7 +118,7 @@ public class PlayerManager : NetworkBehaviour
     {
         players = new List<PlayerManager>(GameObject.FindObjectsOfType<PlayerManager>());
 
-        foreach(MoveButtonScript m in move_buttons)
+        foreach (MoveButtonScript m in move_buttons)
         {
             m.gameObject.SetActive(false);
         }
@@ -139,12 +141,12 @@ public class PlayerManager : NetworkBehaviour
 
             //set the player's location to the new space
             location_manager.CmdSetLocation(r, c);
-            
+
             MachineScript mach = destination.GetComponentInChildren<MachineScript>();
 
             //if the machine doesn't have an owner, set it to the player
             bool aquired = false;
-            if(mach && mach.owner == null)
+            if (mach && mach.owner == null)
             {
                 Color color = GetComponent<MeshRenderer>().material.color;
                 aquired = true;
@@ -172,9 +174,9 @@ public class PlayerManager : NetworkBehaviour
     {
         MoveUI.SetActive(true);
         can_move = inventory.GetValue((int)Inventory.Indexes.HP) > 0;
-        
+
         //if the player can't move, skip their turn
-        if(!can_move)
+        if (!can_move)
         {
             TurnText.text = "You have no HP.\n End your turn/";
             return;
@@ -187,13 +189,27 @@ public class PlayerManager : NetworkBehaviour
             SpaceManager current_space = location_manager.CurrentSpace();
 
             int E = inventory.GetValue((int)Inventory.Indexes.Energy);
-            
+
             but.gameObject.SetActive(current_space && current_space.ValidMove(destination, E));
         }
-        
-        foreach(PlayerManager p in players)
+
+        foreach (PlayerManager p in players)
         {
-            p.GetComponent<Collider>().enabled = true;
+            //if the other player can be attacked, say so on the UI
+            SpaceManager otherLoc = p.gameObject.GetComponent<LocationManager>().CurrentSpace();
+            SpaceManager myLoc = location_manager.CurrentSpace();
+
+            if (myLoc.DistanceTo(otherLoc) <= attack_range & p != this)
+            {
+                p.gameObject.GetComponentInChildren <PlayerBillboard>().can_be_attacked = true;
+
+                //enable the collider so it can be tapped
+                p.GetComponent<Collider>().enabled = true;
+            }
+            else
+            {
+                p.gameObject.GetComponentInChildren<PlayerBillboard>().can_be_attacked = false;
+            }
         }
 
         //UI: when your turn starts, give instructions of possible actions
@@ -236,7 +252,7 @@ public class PlayerManager : NetworkBehaviour
     public void ActivateMove(int r, int c)
     {
         can_move = false;
-        
+
         foreach (MoveButtonScript b in move_buttons)
         {
             b.gameObject.SetActive(false);
@@ -256,17 +272,17 @@ public class PlayerManager : NetworkBehaviour
 
     public bool InputPos(out Vector3 result)
     {
-        if(Input.touchCount >0)
+        if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
 
-            if(touch.phase == TouchPhase.Began)
+            if (touch.phase == TouchPhase.Began)
             {
                 result = touch.position;
                 return true;
             }
         }
-        else if(Input.GetMouseButtonDown(0))
+        else if (Input.GetMouseButtonDown(0))
         {
             result = Input.mousePosition;
             return true;
