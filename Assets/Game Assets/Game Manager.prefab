@@ -88,9 +88,9 @@ MonoBehaviour:
   round: 1
   turn_player: 0
   roundsPerDay: 4
-  numDays: 2
+  numDays: 4
   HP_Regen: 5
-  E_Regen: 10
+  E_Regen: 15
   machine_prefab: {fileID: 1637075234063302, guid: d788f9c66ce46eb498970cfa473fc37f,
     type: 2}
   machines_per_player: 2

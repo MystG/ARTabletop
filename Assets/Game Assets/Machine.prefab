@@ -275,7 +275,7 @@ MonoBehaviour:
   owner: {fileID: 0}
   available_to_all: 0
   has_recources: 1
-  recource_amount: 3
+  recource_amount: 4
   recource_type: 2
 --- !u!114 &114645656667839396
 MonoBehaviour:
