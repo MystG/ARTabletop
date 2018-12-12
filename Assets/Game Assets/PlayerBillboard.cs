@@ -18,7 +18,8 @@ public class PlayerBillboard : MonoBehaviour {
         inv = GetComponentInParent<Inventory>();
         text = GetComponent<Text>();
 
-        
+        ATK.SetActive(false);
+
      
     }
 	
@@ -29,6 +30,7 @@ public class PlayerBillboard : MonoBehaviour {
         if (inv.isLocalPlayer)
         {
             text.text = "";
+            ATK.SetActive(false);
             Hpbar.SetActive(false);
         }
         else
@@ -40,10 +42,7 @@ public class PlayerBillboard : MonoBehaviour {
 
             hpb.fillAmount = ohp / 5f;
 
-            if (can_be_attacked)
-            {
-                ATK.SetActive(true);
-            }
+                ATK.SetActive(can_be_attacked);
 
 
         }

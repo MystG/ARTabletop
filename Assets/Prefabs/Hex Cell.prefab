@@ -261,7 +261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   row: 0
   col: 0
-  max_move_dist: 4
+  max_move_dist: 3
 --- !u!114 &114893789652630124
 MonoBehaviour:
   m_ObjectHideFlags: 1
